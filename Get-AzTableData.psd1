@@ -167,6 +167,7 @@ function Optimize-Description {
 function Get-AllFromLinkPortal {
     [CmdletBinding()]
     param (
+        [Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount]$table,
         [Parameter()][switch]$AsTable
     )
 
@@ -179,6 +180,7 @@ function Get-AllFromLinkPortal {
 
 function Get-UncategorizedLinks {
     param (
+        [Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount]$table,
         [Parameter()][switch]$AsTable
     )
     $results = Get-AllFromLinkPortal | Where-Object { $_.category -eq "Uncategorized" }

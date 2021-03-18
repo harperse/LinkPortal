@@ -57,6 +57,7 @@ $(document).ready(function() {
 
 [string]$endHTML = '</body></html>'
 
+
 #endregion Globals
 
 #region Enums
@@ -378,7 +379,7 @@ function Export-LinksToHTML {
     [string[]]$categories = $links.Category | Sort-Object -Unique
 
     Set-Content -Path .\index.html -Value $startHTML
-    foreach ($linkCategory in $categories) {
+    ForEach ($linkCategory in $categories) {
         Add-Content -Path .\index.html -Value "<fieldset title=`"$($linkCategory, "fieldset" -join "_")`"><legend>$($linkCategory)</legend><table id=`"$($linkCategory)`" class=`"display`"><thead><th>Title</th><th>URI</th><th>Description</th><th>Keywords</th></thead>"
         $links.Where( { $_.category -eq $linkCategory }).foreach( { Add-Content -Path .\index.html -Value "<tr><td>$($_.Title)</td><td><a target=`"_blank`" href=$($_.URI)>$($_.URI)</a></td><td>$($_.Description)</td><td>$($_.Keywords)</td></tr>" } )
         Add-Content -Path .\index.html -Value "</table></fieldset><p/>"
@@ -404,7 +405,6 @@ function Export-LinksToHTMLOnePage {
 
 #endregion Functions
 
-#Optimize-URL
-#Export-LinksToHTMLOnePage
+#Export-ModuleMember -Function @("Get-AllFromLinkPortal")
 
-Export-ModuleMember -Function @("Get-AllFromLinkPortal")
+Export-LinksToHTMLOnePage
