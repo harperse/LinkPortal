@@ -8,6 +8,7 @@ $tableName = "Links"
 
 $saContext = (Get-AzStorageAccount -ResourceGroupName $resourceGroup -Name $storageAccount).Context
 $table = Get-AzStorageTable -Name $tableName -Context $saContext
+$cloudTable = $table.CloudTable
 
 $edgePath = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
@@ -171,7 +172,7 @@ function Get-AllFromLinkPortal {
         [Parameter()][switch]$AsTable
     )
 
-    $results = Get-AzStorageTableRowAll -table $table
+    $results = Get-AzTableRow -table $cloudTable
     if ($AsTable) {
         $results | Format-Table -Property Title, URI, Description, Category, Keywords -AutoSize -Wrap -GroupBy Category
     }
@@ -239,7 +240,7 @@ function New-LinkPortalRow {
         Keywords    = [string]$SetKeywords
     }
     
-    Add-AzStorageTableRow -table $table -partitionKey 1 -rowKey $([guid]::NewGuid()) -property $linkProperties | Out-Null
+    Add-AzTableRow -table $cloudTable -partitionKey 1 -rowKey $([guid]::NewGuid()) -property $linkProperties | Out-Null
     
 }
 
