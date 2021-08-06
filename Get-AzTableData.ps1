@@ -1,6 +1,6 @@
 #region Globals
 
-Import-Module AzTable
+Import-Module Az.Storage
 
 $resourceGroup = "rgLinkPortal"
 $storageAccount = "salinkportal"
